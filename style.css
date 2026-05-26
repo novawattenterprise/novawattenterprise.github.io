@@ -31,7 +31,7 @@
     --shadow-premium: 0 20px 40px rgba(0, 0, 0, 0.03);
     --glass-blur: blur(16px);
     --input-bg: #ffffff;
-    --badge-bg: rgba(var(--hue-primary), 85%, 52%, 0.08);
+    --badge-bg: hsla(var(--hue-primary), 85%, 52%, 0.08);
     --badge-text: hsl(var(--hue-primary), 85%, 40%);
     
     /* Section Glassmorphism Background */
@@ -120,12 +120,13 @@ body::after {
     height: 100vh;
     z-index: -1;
     pointer-events: none;
-    background: radial-gradient(circle at center, rgba(6, 7, 10, 0.25) 0%, rgba(6, 7, 10, 0.65) 100%);
+    /* softened overlay to keep background visible while preserving contrast */
+    background: radial-gradient(circle at center, rgba(6, 7, 10, 0.10) 0%, rgba(6, 7, 10, 0.45) 100%);
     transition: var(--transition-smooth);
 }
 
 .light-theme body::after {
-    background: radial-gradient(circle at center, rgba(245, 246, 248, 0.25) 0%, rgba(245, 246, 248, 0.55) 100%);
+    background: radial-gradient(circle at center, rgba(245, 246, 248, 0.12) 0%, rgba(245, 246, 248, 0.45) 100%);
 }
 
 /* Preloader Overlay */
@@ -300,7 +301,7 @@ body::after {
     margin-bottom: 24px;
     letter-spacing: 0.5px;
     text-transform: uppercase;
-    border: 1px solid rgba(var(--hue-primary), 85%, 52%, 0.2);
+    border: 1px solid hsla(var(--hue-primary), 85%, 52%, 0.2);
 }
 
 /* Header & Navigation */
@@ -343,6 +344,49 @@ body::after {
 
 .logo span {
     color: var(--primary-color);
+}
+
+.brand-logo {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    vertical-align: middle;
+    margin-right: 10px;
+    border-radius: 50%;
+}
+
+.brand-product {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-left: 8px;
+    color: var(--text-primary);
+}
+
+/* Ensure header brand aligns neatly */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Bring key sections above the canvas overlay */
+.hero-section,
+.pitch-section,
+.roi-metrics,
+.financial-section,
+.business-model,
+.value-propositions,
+.partnerships-section,
+.plans-section,
+.contact-section {
+    position: relative;
+    z-index: 2;
+}
+
+/* Ensure hero content is visible above overlays */
+.hero-content {
+    position: relative;
+    z-index: 3;
 }
 
 .nav-menu {
@@ -651,7 +695,7 @@ body::after {
 .telemetry-icon {
     font-size: 1.6rem;
     color: var(--primary-color);
-    background-color: rgba(var(--hue-primary), 85%, 52%, 0.08);
+    background-color: hsla(var(--hue-primary), 85%, 52%, 0.08);
     width: 52px;
     height: 52px;
     border-radius: var(--border-radius-sm);
@@ -737,7 +781,7 @@ body::after {
 
 .service-card:hover {
     transform: translateY(-10px);
-    border-color: rgba(var(--hue-primary), 85%, 52%, 0.2);
+    border-color: hsla(var(--hue-primary), 85%, 52%, 0.2);
     box-shadow: var(--shadow-premium);
 }
 
@@ -748,7 +792,7 @@ body::after {
 .service-icon {
     font-size: 2rem;
     color: var(--primary-color);
-    background-color: rgba(var(--hue-primary), 85%, 52%, 0.08);
+    background-color: hsla(var(--hue-primary), 85%, 52%, 0.08);
     width: 64px;
     height: 64px;
     border-radius: var(--border-radius-md);
@@ -948,7 +992,7 @@ body::after {
 .point-icon {
     font-size: 1.5rem;
     color: var(--secondary-color);
-    background-color: rgba(var(--hue-secondary), 85%, 55%, 0.08);
+    background-color: hsla(var(--hue-secondary), 85%, 55%, 0.08);
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -1002,7 +1046,7 @@ body::after {
 .detail-icon {
     font-size: 1.4rem;
     color: var(--primary-color);
-    background-color: rgba(var(--hue-primary), 85%, 52%, 0.08);
+    background-color: hsla(var(--hue-primary), 85%, 52%, 0.08);
     width: 54px;
     height: 54px;
     border-radius: var(--border-radius-md);
@@ -1348,7 +1392,7 @@ footer {
 .arch-icon {
     font-size: 2rem;
     color: var(--primary-color);
-    background-color: rgba(var(--hue-primary), 85%, 52%, 0.08);
+    background-color: hsla(var(--hue-primary), 85%, 52%, 0.08);
     width: 60px;
     height: 60px;
     border-radius: var(--border-radius-md);
@@ -1440,7 +1484,7 @@ footer {
 .tech-icon {
     font-size: 2.2rem;
     color: var(--primary-color);
-    background-color: rgba(var(--hue-primary), 85%, 52%, 0.08);
+    background-color: hsla(var(--hue-primary), 85%, 52%, 0.08);
     width: 68px;
     height: 68px;
     border-radius: var(--border-radius-md);
@@ -1750,7 +1794,7 @@ footer {
 .profile-icon {
     font-size: 2rem;
     color: var(--primary-color);
-    background-color: rgba(var(--hue-primary), 85%, 52%, 0.08);
+    background-color: hsla(var(--hue-primary), 85%, 52%, 0.08);
     width: 58px;
     height: 58px;
     border-radius: var(--border-radius-md);
@@ -1847,12 +1891,12 @@ footer {
 }
 
 .solution-label {
-    background-color: rgba(var(--hue-secondary), 85%, 55%, 0.1);
+    background-color: hsla(var(--hue-secondary), 85%, 55%, 0.1);
     color: var(--secondary-color);
 }
 
 .impact-label {
-    background-color: rgba(var(--hue-primary), 85%, 52%, 0.1);
+    background-color: hsla(var(--hue-primary), 85%, 52%, 0.1);
     color: var(--primary-color);
 }
 
@@ -1872,7 +1916,7 @@ footer {
 }
 
 .pillar {
-    background: linear-gradient(135deg, var(--card-bg) 0%, rgba(var(--hue-primary), 85%, 52%, 0.05) 100%);
+    background: linear-gradient(135deg, var(--card-bg) 0%, hsla(var(--hue-primary), 85%, 52%, 0.05) 100%);
     border: 1px solid var(--card-border);
     border-radius: var(--border-radius-lg);
     padding: 35px;
@@ -1938,7 +1982,7 @@ footer {
 .pillar-features span {
     display: inline-block;
     padding: 6px 12px;
-    background-color: rgba(var(--hue-primary), 85%, 52%, 0.1);
+    background-color: hsla(var(--hue-primary), 85%, 52%, 0.1);
     color: var(--primary-color);
     border-radius: 6px;
     font-size: 0.8rem;
@@ -1985,7 +2029,7 @@ footer {
     font-size: 0.8rem;
     font-weight: 700;
     color: var(--primary-color);
-    background-color: rgba(var(--hue-primary), 85%, 52%, 0.1);
+    background-color: hsla(var(--hue-primary), 85%, 52%, 0.1);
     padding: 6px 12px;
     border-radius: 6px;
     margin-bottom: 20px;
@@ -2019,7 +2063,7 @@ footer {
 .pitch-icon {
     font-size: 2rem;
     color: var(--primary-color);
-    background-color: rgba(var(--hue-primary), 85%, 52%, 0.08);
+    background-color: hsla(var(--hue-primary), 85%, 52%, 0.08);
     width: 60px;
     height: 60px;
     border-radius: var(--border-radius-md);
@@ -2053,7 +2097,7 @@ footer {
 }
 
 .metric-card {
-    background: linear-gradient(135deg, rgba(var(--hue-primary), 85%, 52%, 0.05) 0%, rgba(var(--hue-secondary), 85%, 55%, 0.05) 100%);
+    background: linear-gradient(135deg, hsla(var(--hue-primary), 85%, 52%, 0.05) 0%, hsla(var(--hue-secondary), 85%, 55%, 0.05) 100%);
     border: 1px solid var(--card-border);
     border-radius: var(--border-radius-lg);
     padding: 30px;
@@ -2077,7 +2121,7 @@ footer {
 .metric-icon {
     font-size: 2.2rem;
     color: var(--primary-color);
-    background-color: rgba(var(--hue-primary), 85%, 52%, 0.1);
+    background-color: hsla(var(--hue-primary), 85%, 52%, 0.1);
     width: 65px;
     height: 65px;
     border-radius: var(--border-radius-md);
@@ -2156,7 +2200,7 @@ footer {
 
 .journey-tag {
     display: inline-block;
-    background-color: rgba(var(--hue-primary), 85%, 52%, 0.1);
+    background-color: hsla(var(--hue-primary), 85%, 52%, 0.1);
     color: var(--primary-color);
     padding: 6px 14px;
     border-radius: 20px;
@@ -2226,7 +2270,7 @@ footer {
 }
 
 .financial-table tbody tr:hover {
-    background-color: rgba(var(--hue-primary), 85%, 52%, 0.05);
+    background-color: hsla(var(--hue-primary), 85%, 52%, 0.05);
 }
 
 .financial-table strong {
@@ -2302,7 +2346,7 @@ footer {
 }
 
 .value-card {
-    background: linear-gradient(135deg, rgba(var(--hue-primary), 85%, 52%, 0.05) 0%, rgba(var(--hue-secondary), 85%, 55%, 0.05) 100%);
+    background: linear-gradient(135deg, hsla(var(--hue-primary), 85%, 52%, 0.05) 0%, hsla(var(--hue-secondary), 85%, 55%, 0.05) 100%);
     border: 1px solid var(--card-border);
     border-radius: var(--border-radius-lg);
     padding: 35px;
