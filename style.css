@@ -2437,42 +2437,42 @@ footer {
         grid-template-columns: 1fr;
         text-align: center;
     }
-    
+
     .hero-desc {
         margin-left: auto;
         margin-right: auto;
     }
-    
+
     .hero-cta {
         justify-content: center;
     }
-    
+
     .hero-visual {
         margin-top: 40px;
         max-width: 480px;
         margin-left: auto;
         margin-right: auto;
     }
-    
+
     .telemetry-grid {
         grid-template-columns: 1fr;
         gap: 15px;
     }
-    
+
     .about-grid, .contact-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .about-content {
         padding-left: 0;
         margin-top: 40px;
     }
-    
+
     .footer-grid {
         grid-template-columns: 1fr;
         gap: 40px;
     }
-    
+
     .journey-timeline::before {
         display: none;
     }
@@ -2499,14 +2499,52 @@ footer {
         grid-template-columns: 1fr;
     }
 
-    .btn-nav {
-        display: none;
+    /* --- INIZIO FIX MENU MOBILE --- */
+    .logo {
+        font-size: 1.2rem;
+        gap: 4px;
     }
-    
+
+    .brand-logo {
+        width: 30px;
+        height: 30px;
+        margin-right: 2px;
+    }
+
+    .brand-product {
+        font-size: 0.8rem;
+        margin-left: 2px;
+    }
+
+    .nav-actions {
+        gap: 10px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+    }
+
+    #theme-toggle {
+        width: 36px;
+        height: 36px;
+        font-size: 1.1rem;
+        flex-shrink: 0;
+    }
+
+    .btn-nav {
+        display: inline-flex;
+        padding: 6px 12px;
+        font-size: 0.8rem;
+        gap: 4px;
+        border-radius: 8px;
+    }
+
     .menu-toggle {
         display: flex;
+        flex-shrink: 0;
+        margin-left: 4px;
     }
-    
+    /* --- FINE FIX MENU MOBILE --- */
+
     .nav-menu {
         position: fixed;
         top: 80px;
@@ -2524,21 +2562,21 @@ footer {
         transition: var(--transition-smooth);
         border-top: 1px solid var(--card-border);
     }
-    
+
     .nav-menu.open {
         transform: translateY(0);
         opacity: 1;
         pointer-events: auto;
     }
-    
+
     .menu-toggle.open .bar:nth-child(1) {
         transform: translateY(8px) rotate(45deg);
     }
-    
+
     .menu-toggle.open .bar:nth-child(2) {
         opacity: 0;
     }
-    
+
     .menu-toggle.open .bar:nth-child(3) {
         transform: translateY(-8px) rotate(-45deg);
     }
@@ -2548,24 +2586,38 @@ footer {
     .hero-title {
         font-size: 2.5rem;
     }
-    
+
     .hero-cta {
         flex-direction: column;
         gap: 15px;
     }
-    
+
     .contact-form-wrapper {
         padding: 30px 20px;
     }
-    
+
     .hotspot {
         width: 32px;
         height: 32px;
         font-size: 0.85rem;
     }
-    
+
     .hotspot-pulse {
         width: 32px;
         height: 32px;
     }
+
+    /* --- INIZIO FIX SCHERMI EXTRA-PICCOLI --- */
+    .logo {
+        font-size: 1.1rem;
+    }
+
+    .brand-product {
+        display: none;
+    }
+
+    .nav-actions {
+        gap: 8px;
+    }
+    /* --- FINE FIX SCHERMI EXTRA-PICCOLI --- */
 }
