@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SymbioSkin | Seconda Pelle Intelligente & Comfort Biometrico</title>
+    <meta name="description" content="SymbioSkin è una seconda pelle intelligente che connette il corpo umano e l'edificio, trasformando il comfort termico in un dialogo biometrico continuo.">
+    <meta name="keywords" content="SymbioSkin, wearable design, comfort termico, smart building, biometric feedback, risparmio energetico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme">
+    <!-- Loading Screen -->
+    <div id="loading-overlay">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <h2>Caricamento Esperienza 3D</h2>
+            <p>Pre-caricamento dell'ufficio intelligente SymbioSkin...</p>
+            <div class="loader-bar-container">
+                <div id="loader-bar"></div>
+            </div>
+            <div id="loader-percentage">0%</div>
+        </div>
+    </div>
+
+    <canvas id="scroll-canvas"></canvas>
+    <div id="scroll-progress"></div>
+
+    <!-- Header Navigation -->
+    <header id="header">
+        <div class="container navbar">
+            <a href="index.html" class="logo">Symbio<span>Skin</span></a>
+            <nav class="nav-menu" id="nav-menu">
+                <a href="#hero" class="nav-link active">Prodotto</a>
+                <a href="#problem" class="nav-link">Problema</a>
+                <a href="#technology" class="nav-link">Tecnologia</a>
+                <a href="#plans" class="nav-link">Piani</a>
+                <a href="#usecases" class="nav-link">Applicazioni</a>
+                <a href="#contact" class="nav-link">Contatti</a>
+            </nav>
+            <div class="nav-actions">
+                <button id="theme-toggle" aria-label="Cambia tema">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                <a href="investors.html" class="btn btn-primary btn-sm btn-nav">💼 Investi</a>
+                <button class="menu-toggle" id="menu-toggle" aria-label="Apri menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero" class="hero-section">
+            <video class="hero-video-bg" autoplay loop muted playsinline>
+                <source src="https://player.vimeo.com/external/371433846.sd.mp4?s=236da2f3c054773d2ef7d8b02fc9b08f4384a86f&profile_id=139&oauth2_token_id=57447761" type="video/mp4">
+            </video>
+
+            <div class="container hero-grid">
+                <div class="hero-content animate-fade-in">
+                    <span class="badge">Biometric Wearable Design</span>
+                    <h1 class="hero-title">Il corpo e l'edificio in perfetta <span class="text-gradient">Sintonia</span></h1>
+                    <p class="hero-desc">Una seconda pelle intelligente che trasforma il comfort termico in un dialogo continuo, biometrico e personalizzato tra la persona e l'ambiente circostante.</p>
+                    <div class="hero-cta">
+                        <a href="#technology" class="btn btn-primary">Come Funziona</a>
+                        <a href="#plans" class="btn btn-outline">Scopri i Piani</a>
+                    </div>
+                </div>
+                <div class="hero-visual animate-slide-up">
+                    <div class="product-interactive-container" id="product-card">
+                        <img src="images/symbioskin.png" alt="SymbioSkin Wearable Device" id="product-img">
+                        <svg class="circuit-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+                            <path class="circuit-line" d="M 83 45 L 75 35 L 55 35 L 45 42 L 33 40" />
+                            <path class="circuit-line" d="M 83 45 L 78 48 L 65 42 L 50 48 L 33 40" />
+                            <path class="circuit-line" d="M 83 45 L 75 52 L 58 52 L 48 45 L 33 40" />
+                            <path class="circuit-line" d="M 83 45 L 88 35 L 94 30" />
+                            <path class="circuit-line" d="M 83 45 L 85 55 L 90 60" />
+                        </svg>
+                        <div class="hotspot hotspot-temp" style="top: 48%; left: 52%;" data-tooltip="Temperatura Cutanea: 36.6°C">
+                            <span class="hotspot-pulse"></span>
+                            <i class="fa-solid fa-temperature-half"></i>
+                        </div>
+                        <div class="hotspot hotspot-sweat" style="top: 40%; left: 33%;" data-tooltip="Sudorazione: 0.12 mg/cm²/min">
+                            <span class="hotspot-pulse"></span>
+                            <i class="fa-solid fa-droplet"></i>
+                        </div>
+                        <div class="hotspot hotspot-chip" style="top: 45%; left: 83%;" data-tooltip="AI Processor: +42% Efficienza">
+                            <span class="hotspot-pulse"></span>
+                            <i class="fa-solid fa-microchip"></i>
+                        </div>
+                    </div>
+                    <div class="hover-tip"><i class="fa-solid fa-arrows-to-eye"></i> Muovi il mouse sul dispositivo</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Telemetry -->
+        <section class="telemetry-section">
+            <div class="container telemetry-grid">
+                <div class="telemetry-card">
+                    <span class="telemetry-icon"><i class="fa-solid fa-heart-pulse"></i></span>
+                    <div>
+                        <h4>Biometria Utente</h4>
+                        <p id="telemetry-biometric">Stabile • Profilo AI attivo</p>
+                    </div>
+                </div>
+                <div class="telemetry-card">
+                    <span class="telemetry-icon"><i class="fa-solid fa-network-wired"></i></span>
+                    <div>
+                        <h4>Ambiente Smart</h4>
+                        <p id="telemetry-building">Connesso • Ventilazione Micro</p>
+                    </div>
+                </div>
+                <div class="telemetry-card">
+                    <span class="telemetry-icon"><i class="fa-solid fa-bolt"></i></span>
+                    <div>
+                        <h4>Energy Harvesting</h4>
+                        <p id="telemetry-energy">Calore corporeo + Movimento</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Problem Section -->
+        <section id="problem" class="problem-section section-padding">
+            <div class="container">
+                <div class="section-header text-center reveal">
+                    <span class="section-subtitle">Il Problema</span>
+                    <h2 class="section-title">Perché i sistemi HVAC attuali non funzionano</h2>
+                </div>
+                <div class="problem-grid">
+                    <div class="problem-card reveal">
+                        <div class="problem-icon"><i class="fa-solid fa-gears"></i></div>
+                        <h3>Logica Centralizzata</h3>
+                        <p>40-60% dell'energia di un edificio spreca climatizzando volumi interi invece di adattarsi ai singoli individui.</p>
+                    </div>
+                    <div class="problem-card reveal">
+                        <div class="problem-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                        <h3>Stress Termico</h3>
+                        <p>Conflitti per il termostato e calo di produttività. Il tuo comfort dipende dalle preferenze degli altri.</p>
+                    </div>
+                    <div class="problem-card reveal">
+                        <div class="problem-icon"><i class="fa-solid fa-leaf"></i></div>
+                        <h3>Impatto Ambientale</h3>
+                        <p>Emissioni di CO₂ e gas refrigeranti nocivi. Uno spreco non solo economico ma planetario.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technology Section (unified with Architecture) -->
+        <section id="technology" class="technology-section section-padding">
+            <div class="container">
+                <div class="section-header text-center reveal">
+                    <span class="section-subtitle">Tecnologia & Architettura</span>
+                    <h2 class="section-title">Come Funziona SymbioSkin</h2>
+                    <p class="section-desc">Biosensori + AI predittiva + Energy Harvesting integrati in un tessuto ultra-sottile.</p>
+                </div>
+                <div class="tech-grid">
+                    <div class="tech-card reveal">
+                        <div class="tech-icon"><i class="fa-solid fa-dna"></i></div>
+                        <h3>Biosensori Epidermici</h3>
+                        <p>Rilevano temperatura cutanea, sudorazione, battito cardiaco e stress termico in tempo reale.</p>
+                        <ul class="feature-list">
+                            <li>Multi-zona temperature monitoring</li>
+                            <li>Sudorazione reale-time</li>
+                            <li>Frequenza cardiaca + HRV</li>
+                        </ul>
+                    </div>
+                    <div class="tech-card reveal">
+                        <div class="tech-icon"><i class="fa-solid fa-brain"></i></div>
+                        <h3>AI Predittiva</h3>
+                        <p>Mappa la tua "firma termica" personale. Anticipa il disagio prima che lo senta.</p>
+                        <ul class="feature-list">
+                            <li>Comfort profiling personalizzato</li>
+                            <li>Previsione discomfort</li>
+                            <li>Apprendimento continuo</li>
+                        </ul>
+                    </div>
+                    <div class="tech-card reveal">
+                        <div class="tech-icon"><i class="fa-solid fa-building"></i></div>
+                        <h3>Smart Building IoT</h3>
+                        <p>Dialogo bidirezionale con HVAC, pannelli radianti e sistemi domotici.</p>
+                        <ul class="feature-list">
+                            <li>ZigBee & BLE native</li>
+                            <li>Sincronizzazione cluster</li>
+                            <li>Integrazione smart home</li>
+                        </ul>
+                    </div>
+                    <div class="tech-card reveal">
+                        <div class="tech-icon"><i class="fa-solid fa-battery-three-quarters"></i></div>
+                        <h3>Energy Harvesting</h3>
+                        <p>Auto-alimentazione dal calore corporeo e dal movimento. Zero batterie ingombranti.</p>
+                        <ul class="feature-list">
+                            <li>Thermoelectric recovery</li>
+                            <li>Piezoelectric energy</li>
+                            <li>Autonomia estesa</li>
+                        </ul>
+                    </div>
+                    <div class="tech-card reveal">
+                        <div class="tech-icon"><i class="fa-solid fa-temperature-half"></i></div>
+                        <h3>Heating & Cooling</h3>
+                        <p>Filamenti conduttivi in grafene per riscaldamento/raffreddamento localizzato.</p>
+                        <ul class="feature-list">
+                            <li>Grafene filaments</li>
+                            <li>Peltier modules</li>
+                            <li>PCM materials</li>
+                        </ul>
+                    </div>
+                    <div class="tech-card reveal">
+                        <div class="tech-icon"><i class="fa-solid fa-shirt"></i></div>
+                        <h3>Materiali Bio</h3>
+                        <p>Silicone biocompatibile, grafene, nanotubi. Completamente ecologico.</p>
+                        <ul class="feature-list">
+                            <li>Biocompatible silicon</li>
+                            <li>Flexible graphene</li>
+                            <li>Nanotubes & polymers</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Plans Section -->
+        <section id="plans" class="plans-section section-padding">
+            <div class="container">
+                <div class="section-header text-center reveal">
+                    <span class="section-subtitle">Scegli il Tuo Piano</span>
+                    <h2 class="section-title">Prezzi Trasparenti, Valore Reale</h2>
+                    <p class="section-desc">Da utenti curiosi a grandi aziende: ogni piano è ottimizzato per il tuo stile di vita.</p>
+                </div>
+                <div class="plans-grid">
+                    <!-- Free Plan -->
+                    <div class="plan-card reveal">
+                        <div class="plan-header free">
+                            <h3>Gratuito</h3>
+                            <span class="price">€0</span>
+                        </div>
+                        <div class="plan-description">Perfetto per scoprire il prodotto</div>
+                        <ul class="plan-features">
+                            <li><i class="fa-solid fa-check"></i> Monitoraggio biometrico base</li>
+                            <li><i class="fa-solid fa-check"></i> Controllo manuale microclima</li>
+                            <li><i class="fa-solid fa-check"></i> App mobile ufficiale</li>
+                            <li><i class="fa-solid fa-xmark"></i> Algoritmo AI</li>
+                            <li><i class="fa-solid fa-xmark"></i> IoT Integration</li>
+                        </ul>
+                        <a href="#contact" class="btn btn-outline w-full">Prova Gratis</a>
+                    </div>
+
+                    <!-- Base Plan -->
+                    <div class="plan-card reveal popular">
+                        <div class="plan-badge">Più Popolare</div>
+                        <div class="plan-header base">
+                            <h3>Base</h3>
+                            <span class="price">€5,99<span class="period">/mese</span></span>
+                        </div>
+                        <div class="plan-description">Per smart workers e professionisti</div>
+                        <ul class="plan-features">
+                            <li><i class="fa-solid fa-check"></i> Monitoraggio completo</li>
+                            <li><i class="fa-solid fa-check"></i> AI adattiva standard</li>
+                            <li><i class="fa-solid fa-check"></i> Risparmio energetico domestico</li>
+                            <li><i class="fa-solid fa-check"></i> Profile personale</li>
+                            <li><i class="fa-solid fa-xmark"></i> Multi-contesto avanzato</li>
+                        </ul>
+                        <a href="#contact" class="btn btn-primary w-full">Sottoscrivi</a>
+                        <p class="plan-note">ROI: 1-2 mesi sulla bolletta energetica</p>
+                    </div>
+
+                    <!-- Pro Plan -->
+                    <div class="plan-card reveal">
+                        <div class="plan-header pro">
+                            <h3>Pro</h3>
+                            <span class="price">€19,99<span class="period">/mese</span></span>
+                        </div>
+                        <div class="plan-description">Per power-users e sportivi</div>
+                        <ul class="plan-features">
+                            <li><i class="fa-solid fa-check"></i> Tutto di Base</li>
+                            <li><i class="fa-solid fa-check"></i> AI multi-contesto avanzata</li>
+                            <li><i class="fa-solid fa-check"></i> Sport/Ufficio/Esterno detection</li>
+                            <li><i class="fa-solid fa-check"></i> IoT native (BLE/ZigBee)</li>
+                            <li><i class="fa-solid fa-check"></i> Smart building sync</li>
+                        </ul>
+                        <a href="#contact" class="btn btn-primary w-full">Sottoscrivi</a>
+                        <p class="plan-note">Come un servizio premium di monitoraggio</p>
+                    </div>
+
+                    <!-- Enterprise Plan -->
+                    <div class="plan-card reveal">
+                        <div class="plan-header enterprise">
+                            <h3>Enterprise</h3>
+                            <span class="price">€8-12<span class="period">/utente/mese</span></span>
+                        </div>
+                        <div class="plan-description">Per aziende e grandi organizzazioni</div>
+                        <ul class="plan-features">
+                            <li><i class="fa-solid fa-check"></i> Tutto di Pro</li>
+                            <li><i class="fa-solid fa-check"></i> Cluster sincronizzazione</li>
+                            <li><i class="fa-solid fa-check"></i> Dashboard Facility Manager</li>
+                            <li><i class="fa-solid fa-check"></i> Reportistica ESG automatizzata</li>
+                            <li><i class="fa-solid fa-check"></i> Manutenzione predittiva</li>
+                        </ul>
+                        <a href="investors.html" class="btn btn-primary w-full">Contatta Vendite</a>
+                        <p class="plan-note">ROI: 3-4x il costo software in risparmi energetici</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Journey Section (Brief) -->
+        <section id="journey" class="journey-section section-padding">
+            <div class="container">
+                <div class="section-header text-center reveal">
+                    <span class="section-subtitle">Il Tuo Viaggio</span>
+                    <h2 class="section-title">Come Funziona in 6 Passi</h2>
+                </div>
+                <div class="journey-timeline">
+                    <div class="journey-step reveal">
+                        <div class="journey-marker"><div class="journey-number">1</div></div>
+                        <div class="journey-content">
+                            <h3><i class="fa-solid fa-shirt"></i> Indossa SymbioSkin</h3>
+                            <p>Come un capo tecnico normale. Zero setup richiesto.</p>
+                        </div>
+                    </div>
+                    <div class="journey-step reveal">
+                        <div class="journey-marker"><div class="journey-number">2</div></div>
+                        <div class="journey-content">
+                            <h3><i class="fa-solid fa-heartbeat"></i> Rileva Biometria</h3>
+                            <p>Sensori epidermici mappano la tua firma termica personale.</p>
+                        </div>
+                    </div>
+                    <div class="journey-step reveal">
+                        <div class="journey-marker"><div class="journey-number">3</div></div>
+                        <div class="journey-content">
+                            <h3><i class="fa-solid fa-microchip"></i> AI Analizza</h3>
+                            <p>Algoritmi predittivi anticipano il disagio prima che accada.</p>
+                        </div>
+                    </div>
+                    <div class="journey-step reveal">
+                        <div class="journey-marker"><div class="journey-number">4</div></div>
+                        <div class="journey-content">
+                            <h3><i class="fa-solid fa-thermometer"></i> Adatta Microclima</h3>
+                            <p>Riscaldamento/raffreddamento localizzato su richiesta dell'AI.</p>
+                        </div>
+                    </div>
+                    <div class="journey-step reveal">
+                        <div class="journey-marker"><div class="journey-number">5</div></div>
+                        <div class="journey-content">
+                            <h3><i class="fa-solid fa-building"></i> Dialoga con l'Edificio</h3>
+                            <p>Smart building adatta HVAC e sistemi per il tuo comfort ottimale.</p>
+                        </div>
+                    </div>
+                    <div class="journey-step reveal">
+                        <div class="journey-marker"><div class="journey-number">6</div></div>
+                        <div class="journey-content">
+                            <h3><i class="fa-solid fa-smile"></i> Comfort Perfetto</h3>
+                            <p>Microclima personale costante, indipendentemente dall'ambiente.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Use Cases -->
+        <section id="usecases" class="portfolio-section section-padding">
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="section-subtitle">Casi d'Uso</span>
+                    <h2 class="section-title">Quando Scegliere SymbioSkin</h2>
+                </div>
+                <div class="portfolio-grid">
+                    <div class="portfolio-item reveal">
+                        <div class="portfolio-img-wrapper">
+                            <img src="images/project1.png" alt="Wearable design">
+                            <div class="portfolio-overlay">
+                                <div class="portfolio-info">
+                                    <span class="proj-category">Wearable & Biofeedback</span>
+                                    <h3>Advanced UX Design</h3>
+                                    <p>Perfetto per ricercatori e designer di dispositivi indossabili innovativi.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portfolio-item reveal">
+                        <div class="portfolio-img-wrapper">
+                            <img src="images/project2.png" alt="Smart building">
+                            <div class="portfolio-overlay">
+                                <div class="portfolio-info">
+                                    <span class="proj-category">Edifici Intelligenti</span>
+                                    <h3>Integrazione Architettonica</h3>
+                                    <p>Ideale per smart building e aule universitarie sostenibili.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portfolio-item reveal">
+                        <div class="portfolio-img-wrapper">
+                            <img src="images/project3.png" alt="Future design">
+                            <div class="portfolio-overlay">
+                                <div class="portfolio-info">
+                                    <span class="proj-category">Innovazione & Media</span>
+                                    <h3>Forza Visiva Impressionante</h3>
+                                    <p>Spot video, animazioni e mockup futuristici ad alto impatto.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact-section section-padding">
+            <div class="container contact-grid">
+                <div class="contact-info reveal">
+                    <span class="section-subtitle">Contatti</span>
+                    <h2 class="section-title">Pronto a Rivoluzionare il Comfort?</h2>
+                    <p class="contact-p">Che tu stia progettando uno smart building o desideri ottimizzare il tuo comfort personale, contattaci per una demo o una consultation.</p>
+                    <div class="contact-details">
+                        <div class="contact-detail-item">
+                            <div class="detail-icon"><i class="fa-solid fa-envelope"></i></div>
+                            <div>
+                                <span>Email</span>
+                                <a href="mailto:info@symbioskin.io">info@symbioskin.io</a>
+                            </div>
+                        </div>
+                        <div class="contact-detail-item">
+                            <div class="detail-icon"><i class="fa-solid fa-location-dot"></i></div>
+                            <div>
+                                <span>Sede</span>
+                                <p>Milano, Italia</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form-wrapper reveal">
+                    <form id="contact-form" class="contact-form">
+                        <div class="form-group">
+                            <input type="text" id="name" name="name" required placeholder=" ">
+                            <label for="name">Nome Completo</label>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" name="email" required placeholder=" ">
+                            <label for="email">Indirizzo Email</label>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="subject" name="subject" required placeholder=" ">
+                            <label for="subject">Tipologia (Es. Smart Building, B2C)</label>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" name="message" required rows="4" placeholder=" "></textarea>
+                            <label for="message">Descrivi le tue esigenze...</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-full">Invia Richiesta <i class="fa-solid fa-paper-plane"></i></button>
+                        <div id="form-feedback" class="form-feedback"></div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <a href="index.html" class="logo">Symbio<span>Skin</span></a>
+                <p>La seconda pelle intelligente che connette il corpo umano e l'edificio per un comfort bio-adattivo.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Tecnologia</h4>
+                <ul>
+                    <li><a href="#technology">Biosensori</a></li>
+                    <li><a href="#technology">AI Predittiva</a></li>
+                    <li><a href="#technology">Smart Building</a></li>
+                    <li><a href="#technology">Energy Harvesting</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Informazioni</h4>
+                <ul>
+                    <li><a href="#journey">Come Funziona</a></li>
+                    <li><a href="#plans">Piani & Pricing</a></li>
+                    <li><a href="#usecases">Casi d'Uso</a></li>
+                    <li><a href="investors.html">Per Investitori</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom text-center">
+            <p>&copy; 2026 SymbioSkin Project. Tutti i diritti riservati. Fatto con <i class="fa-solid fa-heart" style="color: var(--primary-color);"></i> per l'efficienza energetica.</p>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>
+
