@@ -2613,6 +2613,8 @@ body.modal-open { overflow: hidden; }
         grid-template-columns: 1fr;
         gap: 15px;
     }
+    /* Nascondi la sezione Telemetry su mobile: visibile solo su desktop */
+    .telemetry-section { display: none !important; visibility: hidden; }
 
     .about-grid, .contact-grid {
         grid-template-columns: 1fr;
