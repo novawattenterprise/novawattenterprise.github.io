@@ -208,7 +208,7 @@ body.dark-theme::after {
 }
 
 #loader-bar {
-    width: 0;
+    width: 0%;
     height: 100%;
     background: var(--text-gradient);
     border-radius: 50px;
@@ -229,7 +229,7 @@ body.dark-theme::after {
     left: 0;
     height: 4px;
     background: var(--text-gradient);
-    width: 0;
+    width: 0%;
     z-index: 1000;
     transition: width 0.1s ease-out;
 }
