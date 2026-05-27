@@ -315,7 +315,7 @@
                             <li><i class="fa-solid fa-xmark"></i> Apprendimento automatico</li>
                             <li><i class="fa-solid fa-xmark"></i> Smart home integration</li>
                         </ul>
-                        <a href="#contact" class="btn btn-outline w-full">Prova Gratis</a>
+                        <button type="button" class="btn btn-outline w-full open-preorder" data-plan="starter">Prova Gratis</button>
                     </div>
 
                     <!-- Essential Plan -->
@@ -541,8 +541,9 @@
                     <div class="form-row">
                         <label>Seleziona Piano</label>
                         <div class="plan-options">
-                            <label><input type="radio" name="plan" value="base" checked> Base — €5.99/mese</label>
-                            <label><input type="radio" name="plan" value="pro"> Pro — €19.99/mese</label>
+                            <label><input type="radio" name="plan" value="starter"> Starter — Gratis</label>
+                            <label><input type="radio" name="plan" value="base" checked> Essential — €5,99/mese</label>
+                            <label><input type="radio" name="plan" value="pro"> Premium — €19,99/mese</label>
                         </div>
                     </div>
                     <div class="form-row small-row">
@@ -556,7 +557,7 @@
                         <div class="break-row muted"><span>Ricorrente</span><span id="po-recurring" class="price muted">€5.99 / mese</span></div>
                     </div>
                     <div class="form-row">
-                        <button type="submit" class="btn btn-primary w-full">Pre-ordina · Conferma</button>
+                        <button type="submit" id="po-submit-btn" class="btn btn-primary w-full">Pre-ordina · Conferma</button>
                     </div>
                     <div id="po-feedback" class="form-feedback" role="status" aria-live="polite"></div>
                 </form>
@@ -643,7 +644,7 @@
         });
 
         // Preorder form: price calculation + fake submit
-        const priceMap = { base: 5.99, pro: 19.99 };
+        const priceMap = { starter: 0, base: 5.99, pro: 19.99 };
         const devicePrice = 299.00;
         const qtyInput = document.getElementById('po-qty');
         const planRadios = document.querySelectorAll('input[name="plan"]');
@@ -651,6 +652,7 @@
         const deviceEl = document.getElementById('po-device');
         const subEl = document.getElementById('po-subscription');
         const recurringEl = document.getElementById('po-recurring');
+        const submitBtn = document.getElementById('po-submit-btn');
         const feedback = document.getElementById('po-feedback');
 
         // Open-preorder buttons inside plans
@@ -669,13 +671,27 @@
         const recalc = () => {
             const plan = document.querySelector('input[name="plan"]:checked')?.value || 'base';
             const qty = Math.max(1, parseInt(qtyInput?.value || '1'));
-            const sub = (priceMap[plan] * qty);
-            const device = devicePrice * qty;
-            const totalUpfront = (device + sub).toFixed(2);
-            if (deviceEl) deviceEl.textContent = '€' + device.toFixed(2);
-            if (subEl) subEl.textContent = '€' + sub.toFixed(2);
-            if (totalEl) totalEl.textContent = '€' + totalUpfront;
-            if (recurringEl) recurringEl.textContent = '€' + priceMap[plan].toFixed(2) + ' / mese';
+            const isFree = plan === 'starter';
+
+            // Per il piano gratuito: no device charge, no subscription
+            if (isFree) {
+                if (deviceEl) deviceEl.textContent = 'Incluso (gratis)';
+                if (subEl) subEl.textContent = 'Gratis';
+                if (totalEl) totalEl.textContent = 'Totalmente Gratuito';
+                if (recurringEl) recurringEl.textContent = 'Gratis / mese';
+                if (submitBtn) submitBtn.textContent = 'Accedi a Starter';
+                if (qtyInput) qtyInput.disabled = true;  // qty non ha senso per il piano gratuito
+            } else {
+                if (qtyInput) qtyInput.disabled = false;
+                const sub = (priceMap[plan] * qty);
+                const device = devicePrice * qty;
+                const totalUpfront = (device + sub).toFixed(2);
+                if (deviceEl) deviceEl.textContent = '€' + device.toFixed(2);
+                if (subEl) subEl.textContent = '€' + sub.toFixed(2);
+                if (totalEl) totalEl.textContent = '€' + totalUpfront;
+                if (recurringEl) recurringEl.textContent = '€' + priceMap[plan].toFixed(2) + ' / mese';
+                if (submitBtn) submitBtn.textContent = 'Pre-ordina · Conferma';
+            }
         };
         if (qtyInput) qtyInput.addEventListener('input', recalc);
         planRadios.forEach(r => r.addEventListener('change', recalc));
@@ -690,10 +706,18 @@
                 const plan = document.querySelector('input[name="plan"]:checked').value;
                 const qty = document.getElementById('po-qty').value;
                 const orderId = 'PO-' + Math.random().toString(36).slice(2,9).toUpperCase();
+
+                let message = '';
+                if (plan === 'starter') {
+                    message = `Grazie ${name || ''}! Accesso Starter confermato. Ti abbiamo inviato un link di attivazione a ${email}. Nessun addebito.`;
+                } else {
+                    message = `Grazie ${name || ''}! Richiesta ricevuta. ID ordine: ${orderId}. Piano: ${plan.toUpperCase()} · Quantità: ${qty}. Ti abbiamo inviato le istruzioni a ${email}.`;
+                }
+
                 if (feedback) {
                     feedback.classList.remove('error');
                     feedback.classList.add('success');
-                    feedback.textContent = `Grazie ${name || ''}! Richiesta ricevuta. ID ordine: ${orderId}. Piano: ${plan.toUpperCase()} · Quantità: ${qty}. Ti abbiamo inviato le istruzioni a ${email}.`;
+                    feedback.textContent = message;
                 }
                 // Simulate network delay then close
                 setTimeout(() => {
