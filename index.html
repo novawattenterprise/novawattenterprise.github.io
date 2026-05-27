@@ -673,25 +673,25 @@
             const qty = Math.max(1, parseInt(qtyInput?.value || '1'));
             const isFree = plan === 'starter';
 
-            // Per il piano gratuito: no device charge, no subscription
+            // Hardware è sempre a pagamento, solo subscription può essere gratis
+            const sub = (priceMap[plan] * qty);  // 0 per starter, 5.99 per base, 19.99 per pro
+            const device = devicePrice * qty;  // Sempre €299
+            const totalUpfront = (device + sub).toFixed(2);
+
+            if (deviceEl) deviceEl.textContent = '€' + device.toFixed(2);
+
             if (isFree) {
-                if (deviceEl) deviceEl.textContent = 'Incluso (gratis)';
                 if (subEl) subEl.textContent = 'Gratis';
-                if (totalEl) totalEl.textContent = 'Totalmente Gratuito';
                 if (recurringEl) recurringEl.textContent = 'Gratis / mese';
                 if (submitBtn) submitBtn.textContent = 'Accedi a Starter';
-                if (qtyInput) qtyInput.disabled = true;  // qty non ha senso per il piano gratuito
             } else {
-                if (qtyInput) qtyInput.disabled = false;
-                const sub = (priceMap[plan] * qty);
-                const device = devicePrice * qty;
-                const totalUpfront = (device + sub).toFixed(2);
-                if (deviceEl) deviceEl.textContent = '€' + device.toFixed(2);
                 if (subEl) subEl.textContent = '€' + sub.toFixed(2);
-                if (totalEl) totalEl.textContent = '€' + totalUpfront;
                 if (recurringEl) recurringEl.textContent = '€' + priceMap[plan].toFixed(2) + ' / mese';
                 if (submitBtn) submitBtn.textContent = 'Pre-ordina · Conferma';
             }
+
+            if (totalEl) totalEl.textContent = '€' + totalUpfront;
+            if (qtyInput) qtyInput.disabled = false;  // qty è valida per tutti i piani
         };
         if (qtyInput) qtyInput.addEventListener('input', recalc);
         planRadios.forEach(r => r.addEventListener('change', recalc));
@@ -709,7 +709,7 @@
 
                 let message = '';
                 if (plan === 'starter') {
-                    message = `Grazie ${name || ''}! Accesso Starter confermato. Ti abbiamo inviato un link di attivazione a ${email}. Nessun addebito.`;
+                    message = `Grazie ${name || ''}! Richiesta Starter confermata. Dispositivo: €299. Abbonamento: Gratis. Ti abbiamo inviato le istruzioni a ${email}.`;
                 } else {
                     message = `Grazie ${name || ''}! Richiesta ricevuta. ID ordine: ${orderId}. Piano: ${plan.toUpperCase()} · Quantità: ${qty}. Ti abbiamo inviato le istruzioni a ${email}.`;
                 }
