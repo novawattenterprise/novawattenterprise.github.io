@@ -1632,12 +1632,12 @@ footer {
     transform: translateX(-50%);
     background: var(--text-gradient);
     color: #06070a;
-    padding: 6px 16px;
+    padding: 6px 12px;
     border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 700;
+    font-size: 0.6rem;
+    font-weight: 650;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.8px;
 }
 
 .plan-header {
