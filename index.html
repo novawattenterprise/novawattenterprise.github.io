@@ -41,12 +41,16 @@
                 <a href="#plans" class="nav-link">Piani</a>
                 <a href="#usecases" class="nav-link">Applicazioni</a>
                 <a href="#contact" class="nav-link">Contatti</a>
+                <!-- Mobile-only CTA: Investi (visible inside hamburger menu) -->
+                <a href="investors.html" class="nav-link mobile-cta">💼 Investi</a>
             </nav>
             <div class="nav-actions">
                 <button id="theme-toggle" aria-label="Cambia tema">
                     <i class="fa-solid fa-moon"></i>
                 </button>
-                <a href="investors.html" class="btn btn-primary btn-sm btn-nav">💼 Investi</a>
+                <!--<button id="try-app-btn" class="btn btn-outline btn-sm" aria-label="Prova l'app">Prova l'app</button>-->
+                <a href="investors.html" class="btn btn-primary btn-sm btn-nav hide-on-mobile"> Investi </a>
+                <button id="preorder-btn" class="btn btn-primary btn-sm btn-nav" aria-label="Pre-order">Pre-order</button>
                 <button class="menu-toggle" id="menu-toggle" aria-label="Apri menu">
                     <span class="bar"></span>
                     <span class="bar"></span>
@@ -76,6 +80,7 @@
                 <div class="hero-visual animate-slide-up">
                     <div class="product-interactive-container" id="product-card">
                         <img src="images/symbioskin.png" alt="SymbioSkin Wearable Device" id="product-img">
+                        <div class="product-price">€299</div>
                         <svg class="circuit-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
                             <path class="circuit-line" d="M 83 45 L 75 35 L 55 35 L 45 42 L 33 40" />
                             <path class="circuit-line" d="M 83 45 L 78 48 L 65 42 L 50 48 L 33 40" />
@@ -236,6 +241,7 @@
                     <h2 class="section-title">Prezzi Trasparenti, Valore Reale</h2>
                     <p class="section-desc">Da utenti curiosi a grandi aziende: ogni piano è ottimizzato per il tuo stile di vita.</p>
                 </div>
+                <div class="device-price" aria-hidden="true">Dispositivo (one-time): <strong>€299</strong></div>
                 <div class="plans-grid">
                     <!-- Free Plan -->
                     <div class="plan-card reveal">
@@ -269,7 +275,7 @@
                             <li><i class="fa-solid fa-check"></i> Profile personale</li>
                             <li><i class="fa-solid fa-xmark"></i> Multi-contesto avanzato</li>
                         </ul>
-                        <a href="#contact" class="btn btn-primary w-full">Sottoscrivi</a>
+                        <button type="button" class="btn btn-primary w-full open-preorder" data-plan="base">Pre-order</button>
                         <p class="plan-note">ROI: 1-2 mesi sulla bolletta energetica</p>
                     </div>
 
@@ -287,7 +293,7 @@
                             <li><i class="fa-solid fa-check"></i> IoT native (BLE/ZigBee)</li>
                             <li><i class="fa-solid fa-check"></i> Smart building sync</li>
                         </ul>
-                        <a href="#contact" class="btn btn-primary w-full">Sottoscrivi</a>
+                        <button type="button" class="btn btn-primary w-full open-preorder" data-plan="pro">Pre-order</button>
                         <p class="plan-note">Come un servizio premium di monitoraggio</p>
                     </div>
 
@@ -500,6 +506,199 @@
             <p>&copy; 2026 SymbioSkin Project. Tutti i diritti riservati. Fatto con <i class="fa-solid fa-heart" style="color: var(--primary-color);"></i> per l'efficienza energetica.</p>
         </div>
     </footer>
+
+    <!-- Pre-order Modal (e-commerce style) -->
+    <div id="preorder-modal-backdrop" class="modal-backdrop" aria-hidden="true"></div>
+    <div id="preorder-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="preorder-title" hidden>
+        <div class="modal-card">
+            <header class="modal-header">
+                <h3 id="preorder-title">Pre-ordina SymbioSkin</h3>
+                <button class="modal-close" data-close="preorder-modal" aria-label="Chiudi">×</button>
+            </header>
+                    <div class="modal-body">
+                <p class="muted">Assicurati il tuo SymbioSkin in anteprima. Nessun addebito immediato: inserisci i tuoi dati e riceverai conferma via email.</p>
+                                <div style="display:flex;gap:16px;align-items:center;margin:12px 0 18px 0;">
+                                    <img src="images/symbioskin.png" alt="SymbioSkin" class="preorder-image">
+                                    <div style="flex:1">
+                                        <strong>SymbioSkin — Seconda Pelle Intelligente</strong>
+                                        <div class="muted" style="margin-top:6px;font-size:0.95rem;">Colore mostrato a scopo illustrativo.</div>
+                                    </div>
+                                </div>
+                <form id="preorder-form">
+                    <div class="form-row">
+                        <label for="po-name">Nome</label>
+                        <input id="po-name" name="name" type="text" required placeholder="Mario Rossi">
+                    </div>
+                    <div class="form-row">
+                        <label for="po-email">Email</label>
+                        <input id="po-email" name="email" type="email" required placeholder="mario@esempio.com">
+                    </div>
+                    <div class="form-row">
+                        <label>Seleziona Piano</label>
+                        <div class="plan-options">
+                            <label><input type="radio" name="plan" value="base" checked> Base — €5.99/mese</label>
+                            <label><input type="radio" name="plan" value="pro"> Pro — €19.99/mese</label>
+                        </div>
+                    </div>
+                    <div class="form-row small-row">
+                        <label for="po-qty">Quantità</label>
+                        <input id="po-qty" name="quantity" type="number" min="1" value="1">
+                    </div>
+                    <div class="form-row price-breakdown">
+                        <div class="break-row"><span>Hardware (device)</span><span id="po-device" class="price">€299.00</span></div>
+                        <div class="break-row"><span>Subscription (first month)</span><span id="po-subscription" class="price">€5.99</span></div>
+                        <div class="break-row total-upfront"><strong>Totale upfront</strong><strong id="po-total" class="price">€304.99</strong></div>
+                        <div class="break-row muted"><span>Ricorrente</span><span id="po-recurring" class="price muted">€5.99 / mese</span></div>
+                    </div>
+                    <div class="form-row">
+                        <button type="submit" class="btn btn-primary w-full">Pre-ordina · Conferma</button>
+                    </div>
+                    <div id="po-feedback" class="form-feedback" role="status" aria-live="polite"></div>
+                </form>
+            </div>
+            <footer class="modal-footer">
+                <small class="muted">La pre-ordinazione non addebita la carta. Riceverai istruzioni via email per completare l'acquisto.</small>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Try App Modal (Appetize embed) -->
+    <div id="tryapp-modal-backdrop" class="modal-backdrop" aria-hidden="true"></div>
+    <div id="tryapp-modal" class="modal modal-large" role="dialog" aria-modal="true" aria-labelledby="tryapp-title" hidden>
+        <div class="modal-card">
+            <header class="modal-header">
+                <h3 id="tryapp-title">Prova l'app — Demo Interattiva</h3>
+                <button class="modal-close" data-close="tryapp-modal" aria-label="Chiudi">×</button>
+            </header>
+            <div class="modal-body">
+                <p class="muted">Apri una versione interattiva dell'app nel tuo browser. La demo è eseguita tramite Appetize.io (caricamento può impiegare qualche secondo).</p>
+                <div class="embed-responsive">
+                    <iframe id="appetize-iframe" title="Appetize SymbioSkin Demo" src="https://appetize.io/embed/b_gyvl6mdc7q6bjerdqpo7zm5hii?device=iphone16pro&launchUrl=exp%3A%2F%2Fu.expo.dev%2F933fd9c0-1666-11e7-afca-d980795c5824%3Fruntime-version%3Dexposdk%253A54.0.0%26channel-name%3Dproduction%26snack%3D%2540francescogiarratana%252Fsymbioskin%26snack-channel%3DdsbKsa7M40&params=%7B%22EXDevMenuDisableAutoLaunch%22%3Atrue%2C%22EXKernelDisableNuxDefaultsKey%22%3Atrue%7D&appearance=light&deviceColor=black&scale=auto&orientation=portrait&centered=both" allowfullscreen allow="accelerometer; gyroscope; camera; microphone; clipboard-write"></iframe>
+
+                </div>
+            </div>
+            <footer class="modal-footer">
+                <small class="muted">Suggerimento: per una migliore esperienza usa Chrome o Safari su desktop; su mobile il player è ottimizzato per iPhone.</small>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+    // Modal helpers
+    (function() {
+        const openModal = (id) => {
+            const modal = document.getElementById(id);
+            if (!modal) return;
+            modal.hidden = false;
+            document.body.classList.add('modal-open');
+            // show corresponding backdrop
+            const backdrop = document.getElementById(id + '-backdrop') || document.querySelector('#' + id + ' ~ .modal-backdrop');
+            if (backdrop) backdrop.classList.add('visible');
+        };
+        const closeModal = (id) => {
+            const modal = document.getElementById(id);
+            if (!modal) return;
+            modal.hidden = true;
+            document.body.classList.remove('modal-open');
+            const backdrop = document.getElementById(id + '-backdrop') || document.querySelector('#' + id + ' ~ .modal-backdrop');
+            if (backdrop) backdrop.classList.remove('visible');
+        };
+
+        // Buttons
+        const tryBtn = document.getElementById('try-app-btn');
+        const preBtn = document.getElementById('preorder-btn');
+        if (tryBtn) tryBtn.addEventListener('click', () => openModal('tryapp-modal'));
+        if (preBtn) preBtn.addEventListener('click', () => openModal('preorder-modal'));
+
+        // Close buttons and backdrop
+        document.querySelectorAll('.modal-close').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const id = btn.getAttribute('data-close');
+                closeModal(id);
+            });
+        });
+        document.querySelectorAll('.modal-backdrop').forEach(back => {
+            back.addEventListener('click', () => {
+                // find visible modal and close it
+                document.querySelectorAll('.modal:not([hidden])').forEach(m => {
+                    m.hidden = true;
+                });
+                document.body.classList.remove('modal-open');
+                document.querySelectorAll('.modal-backdrop.visible').forEach(b => b.classList.remove('visible'));
+            });
+        });
+
+        // Escape key closes modals
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal:not([hidden])').forEach(m => m.hidden = true);
+                document.body.classList.remove('modal-open');
+                document.querySelectorAll('.modal-backdrop.visible').forEach(b => b.classList.remove('visible'));
+            }
+        });
+
+        // Preorder form: price calculation + fake submit
+        const priceMap = { base: 5.99, pro: 19.99 };
+        const devicePrice = 299.00;
+        const qtyInput = document.getElementById('po-qty');
+        const planRadios = document.querySelectorAll('input[name="plan"]');
+        const totalEl = document.getElementById('po-total');
+        const deviceEl = document.getElementById('po-device');
+        const subEl = document.getElementById('po-subscription');
+        const recurringEl = document.getElementById('po-recurring');
+        const feedback = document.getElementById('po-feedback');
+
+        // Open-preorder buttons inside plans
+        document.querySelectorAll('.open-preorder').forEach(btn => {
+            btn.addEventListener('click', (ev) => {
+                const plan = btn.getAttribute('data-plan') || 'base';
+                // preselect plan in preorder modal
+                const radio = document.querySelector(`input[name="plan"][value="${plan}"]`);
+                if (radio) radio.checked = true;
+                if (qtyInput) qtyInput.value = '1';
+                recalc();
+                openModal('preorder-modal');
+            });
+        });
+
+        const recalc = () => {
+            const plan = document.querySelector('input[name="plan"]:checked')?.value || 'base';
+            const qty = Math.max(1, parseInt(qtyInput?.value || '1'));
+            const sub = (priceMap[plan] * qty);
+            const device = devicePrice * qty;
+            const totalUpfront = (device + sub).toFixed(2);
+            if (deviceEl) deviceEl.textContent = '€' + device.toFixed(2);
+            if (subEl) subEl.textContent = '€' + sub.toFixed(2);
+            if (totalEl) totalEl.textContent = '€' + totalUpfront;
+            if (recurringEl) recurringEl.textContent = '€' + priceMap[plan].toFixed(2) + ' / mese';
+        };
+        if (qtyInput) qtyInput.addEventListener('input', recalc);
+        planRadios.forEach(r => r.addEventListener('change', recalc));
+        recalc();
+
+        const form = document.getElementById('preorder-form');
+        if (form) {
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('po-name').value;
+                const email = document.getElementById('po-email').value;
+                const plan = document.querySelector('input[name="plan"]:checked').value;
+                const qty = document.getElementById('po-qty').value;
+                const orderId = 'PO-' + Math.random().toString(36).slice(2,9).toUpperCase();
+                if (feedback) {
+                    feedback.classList.remove('error');
+                    feedback.classList.add('success');
+                    feedback.textContent = `Grazie ${name || ''}! Richiesta ricevuta. ID ordine: ${orderId}. Piano: ${plan.toUpperCase()} · Quantità: ${qty}. Ti abbiamo inviato le istruzioni a ${email}.`;
+                }
+                // Simulate network delay then close
+                setTimeout(() => {
+                    // keep message visible for a bit then close
+                    setTimeout(() => closeModal('preorder-modal'), 2200);
+                }, 600);
+            });
+        }
+    })();
+    </script>
 
     <script src="main.js"></script>
 </body>

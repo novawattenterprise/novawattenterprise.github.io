@@ -149,7 +149,7 @@ const createTheme = (mode) => {
 
     return {
         mode,
-        background: '#f4f6f8',
+        background: 'rgba(255, 255, 255, 0.82)',
         backgroundSoft: '#ffffff',
         surface: 'rgba(255, 255, 255, 0.82)',
         surfaceStrong: 'rgba(255, 255, 255, 0.96)',
@@ -213,15 +213,15 @@ const createStyles = (colors, compact) =>
         },
         scrollContent: {
             paddingHorizontal: 16,
-            paddingTop: 30,
-            paddingBottom: 30,
+            paddingTop: 10,
+            paddingBottom: 10,
         },
         headerRow: {
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
             marginBottom: 12,
-            marginTop: 4,
+            marginTop: 40,
         },
         brandWrap: {
             flex: 1,
@@ -312,7 +312,7 @@ const createStyles = (colors, compact) =>
             color: colors.primary,
         },
         card: {
-            backgroundColor: colors.surface,
+            backgroundColor: colors.surfaceStrong,
             borderWidth: 1,
             borderColor: colors.border,
             borderRadius: 24,
@@ -939,6 +939,16 @@ export function App() {
     const [autoSync, setAutoSync] = useState(true);
     const [shareData, setShareData] = useState(false);
     const [pushNotif, setPushNotif] = useState(true);
+
+    // Stati addizionali per una dashboard compatta e simulazione live (semplificata)
+    const [skinTemp, setSkinTemp] = useState('36.4');
+    const [heartRate, setHeartRate] = useState('72');
+    const [sweatRate, setSweatRate] = useState('0.12');
+    const [aiLogs, setAiLogs] = useState([
+        'Sincronizzazione completata con il cluster Ufficio 4.',
+        'Sensori di temperatura cutanea attivi.',
+        'Energy Harvesting: +1.2mW recuperati.'
+    ]);
     const [themeMode, setThemeMode] = useState('system');
     const [timeframe, setTimeframe] = useState('month');
 
@@ -989,6 +999,32 @@ export function App() {
         ]).start();
     }, [introAnim, orbAnim1, orbAnim2]);
 
+    // simulazione live compatta dei parametri biometrici (aggiorna ogni 2.5s se sincronizzato)
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (isSynced) {
+                setSkinTemp((36.2 + Math.random() * 0.4).toFixed(1));
+                setHeartRate(String(Math.floor(70 + Math.random() * 6)));
+                setSweatRate((0.10 + Math.random() * 0.04).toFixed(2));
+
+                const logsList = [
+                    'Rilevato calo temperatura cutanea. Calibrazione in corso.',
+                    'Invio segnale di ventilazione microclimatica al cluster Ufficio 4.',
+                    'Stress termico stabile. Modalità eco attiva.',
+                    'Energy Harvesting: +1.2mW recuperati dal calore corporeo.'
+                ];
+                const randomLog = logsList[Math.floor(Math.random() * logsList.length)];
+                setAiLogs((prev) => [randomLog, prev[0], prev[1]]);
+            } else {
+                setSkinTemp('--');
+                setHeartRate('--');
+                setSweatRate('--');
+            }
+        }, 2500);
+
+        return () => clearInterval(interval);
+    }, [isSynced]);
+
     const toggleThemeMode = () => {
         setThemeMode((current) => {
             if (current === 'system') return 'dark';
@@ -1035,160 +1071,99 @@ export function App() {
         outputRange: [1, 1.05],
     });
 
+    // versione compatta e semplificata della dashboard principale
     const renderHome = () => (
         <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
-            <Animated.View style={{ opacity: introAnim, transform: [{ translateY: heroTranslate }] }}>
-                <View style={[styles.card, styles.heroCard]}>
-                    <View style={styles.badge}>
-                        <Text style={styles.badgeText}>Dashboard Cliente</Text>
-                    </View>
-                    <Text style={styles.heroTitle}>
-                        Controlla SymbioSkin in un solo <Text style={styles.heroTitleAccent}>sguardo</Text>
-                    </Text>
-                    <Text style={styles.heroDesc}>
-                        La tua schermata principale per vedere subito parametri attuali, consumi e stato del dispositivo.
-                    </Text>
-                    <View style={styles.heroActions}>
-                        <TouchableOpacity style={[styles.heroBtn, styles.heroBtnPrimary]} onPress={() => setActiveTab('ABOUT')}>
-                            <Text style={[styles.heroBtnText, styles.heroBtnTextPrimary]}>COS&apos;È SYMBIOSKIN</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={[styles.heroBtn, styles.heroBtnSecondary]} onPress={() => setActiveTab('ENERGY')}>
-                            <Text style={[styles.heroBtnText, styles.heroBtnTextSecondary]}>VEDI I CONSUMI</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.chipRow}>
-                        {HOME_HIGHLIGHTS.map((item) => (
-                            <View key={item.label} style={styles.chip}>
-                                <Feather name={item.icon} size={12} color={colors.primary} />
-                                <Text style={styles.chipText}>{item.label}: {item.value}</Text>
-                            </View>
-                        ))}
-                    </View>
+            <View style={[styles.card, styles.heroCard]}>
+                <View style={styles.badge}>
+                    <Text style={styles.badgeText}>Dashboard</Text>
                 </View>
-            </Animated.View>
+                <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                    <View>
+                        <Text style={styles.heroTitle}>Symbio<Text style={styles.heroTitleAccent}>Skin</Text></Text>
+                        <Text style={styles.heroDesc}>CLUSTER BIOMETRICO</Text>
+                    </View>
+                    <TouchableOpacity style={styles.syncButton} onPress={() => setIsSynced((p) => !p)}>
+                        <Feather name={isSynced ? 'check-circle' : 'x-circle'} size={16} color={isSynced ? colors.primary : colors.textMuted} />
+                        <Text style={[styles.syncText, !isSynced && styles.syncTextMuted]}>{isSynced ? 'SINCRONIZZATO' : 'DISCONNESSO'}</Text>
+                    </TouchableOpacity>
 
-            <View style={styles.sectionHeader}>
-                <Text style={styles.sectionTag}>Dashboard</Text>
-                <Text style={styles.sectionTitle}>Parametri attuali e stato del sistema</Text>
-                <Text style={styles.sectionDesc}>
-                    Una lettura rapida dei segnali fondamentali, pensata per chi usa SymbioSkin ogni giorno.
-                </Text>
+                </View>
             </View>
 
-            <View style={styles.highlightGrid}>
-                {HOME_HIGHLIGHTS.map((item) => (
-                    <View key={item.label} style={styles.highlightCard}>
-                        <View style={styles.highlightIcon}>
-                            <Feather name={item.icon} size={16} color={colors.primary} />
-                        </View>
-                        <Text style={styles.highlightLabel}>{item.label}</Text>
-                        <Text style={styles.highlightValue}>{item.value}</Text>
+            {/* Metriche principali - compatte */}
+            <View style={styles.metricGrid}>
+                <View style={styles.metricCard}>
+                    <View style={styles.metricHeader}>
+                        <Text style={styles.metricLabel}>Pelle</Text>
+                        <Feather name="thermometer" size={16} color={colors.primary} />
+                    </View>
+                    <Text style={styles.metricValue}>{isSynced ? skinTemp + '°C' : '--'}</Text>
+                    <Text style={styles.metricDetail}>{isSynced ? 'Ottimale' : 'Disconnesso'}</Text>
+                </View>
+
+                <View style={styles.metricCard}>
+                    <View style={styles.metricHeader}>
+                        <Text style={styles.metricLabel}>Battito</Text>
+                        <Feather name="heart" size={16} color={colors.secondary} />
+                    </View>
+                    <Text style={styles.metricValue}>{isSynced ? heartRate + ' bpm' : '--'}</Text>
+                    <Text style={styles.metricDetail}>{isSynced ? 'A riposo' : 'Disconnesso'}</Text>
+                </View>
+
+                <View style={styles.metricCard}>
+                    <View style={styles.metricHeader}>
+                        <Text style={styles.metricLabel}>Sudore</Text>
+                        <Feather name="droplet" size={16} color={colors.success} />
+                    </View>
+                    <Text style={styles.metricValue}>{isSynced ? sweatRate + ' mg' : '--'}</Text>
+                    <Text style={styles.metricDetail}>{isSynced ? 'Bilanciato' : 'Disconnesso'}</Text>
+                </View>
+
+                <View style={styles.metricCard}>
+                    <View style={styles.metricHeader}>
+                        <Text style={styles.metricLabel}>Stanza</Text>
+                        <Feather name="map-pin" size={16} color={colors.warning} />
+                    </View>
+                    <Text style={styles.metricValue}>Ufficio 4</Text>
+                    <Text style={styles.metricDetail}>{isSynced ? 'Cluster Attivo' : 'Offline'}</Text>
+                </View>
+            </View>
+
+            {/* Comfort controls semplificati */}
+            <View style={styles.card}>
+                <View style={styles.comfortTopRow}>
+                    <View style={styles.comfortHeading}>
+                        <Text style={styles.comfortTitle}>Comfort: {targetTemp.toFixed(1)}°C</Text>
+                        <Text style={styles.comfortSubtitle}>Intensità {coolingIntensity}%</Text>
+                    </View>
+                    <View style={{width: 90, alignItems: 'flex-end'}}>
+                        <TouchableOpacity style={[styles.iconButton]} onPress={handleHeating}>
+                            <Feather name="sun" size={16} color={colors.warning} />
+                        </TouchableOpacity>
+                        <View style={{height:8}} />
+                        <TouchableOpacity style={[styles.iconButton]} onPress={handleCooling}>
+                            <Feather name="wind" size={16} color={colors.primary} />
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                <View style={styles.sliderTrack}>
+                    <View style={[styles.sliderFill, { width: `${coolingIntensity}%` }]} />
+                </View>
+            </View>
+
+            {/* Feed AI compatto */}
+            <View style={styles.card}>
+                <Text style={styles.metricLabel}>AI FEED (LIVE)</Text>
+                {aiLogs.slice(0,3).map((log, i) => (
+                    <View key={i} style={{flexDirection: 'row', alignItems: 'center', marginTop: 10}}>
+                        <Feather name="arrow-right" size={12} color={colors.primary} style={{marginRight:8}} />
+                        <Text style={{color: colors.textSecondary, fontSize: 12}}>{log}</Text>
                     </View>
                 ))}
             </View>
 
-            <View style={[styles.card, styles.comfortCard]}>
-                <View style={styles.comfortTopRow}>
-                    <View style={styles.comfortHeading}>
-                        <Text style={styles.comfortTitle}>Gestione comfort: {targetTemp.toFixed(1)}°C</Text>
-                        <Text style={styles.comfortSubtitle}>Layer biometrico attivo</Text>
-                    </View>
-                    <TouchableOpacity
-                        style={[
-                            styles.syncPill,
-                            {
-                                backgroundColor: syncBg,
-                                borderColor: isSynced ? colors.borderStrong : colors.border,
-                            },
-                        ]}
-                        onPress={() => setIsSynced((prev) => !prev)}
-                    >
-                        <Feather name={isSynced ? 'check-circle' : 'x-circle'} size={14} color={syncColor} />
-                        <Text style={[styles.syncPillText, { color: syncColor }]}>{syncLabel.toUpperCase()}</Text>
-                    </TouchableOpacity>
-                </View>
-
-                <View style={styles.sliderTrack}>
-                    <View style={[styles.sliderFill, { width: `${coolingIntensity}%` }]} />
-                </View>
-
-                <View style={styles.comfortMetaRow}>
-                    <Text style={styles.comfortMetaText}>Intensità attuale</Text>
-                    <Text style={styles.comfortMetaText}>{coolingIntensity}%</Text>
-                </View>
-
-                <View style={styles.comfortButtons}>
-                    {COMFORT_PRESETS.map((preset, index) => (
-                        <TouchableOpacity
-                            key={preset.label}
-                            style={[
-                                styles.comfortButton,
-                                index === 1 && styles.comfortButtonLast,
-                                index === 0 ? styles.comfortButtonSecondary : styles.comfortButtonPrimary,
-                            ]}
-                            onPress={index === 0 ? handleHeating : handleCooling}
-                        >
-                            <Feather
-                                name={preset.icon}
-                                size={16}
-                                color={index === 0 ? colors.text : colors.mode === 'dark' ? '#061016' : '#ffffff'}
-                            />
-                            <Text
-                                style={[
-                                    styles.comfortButtonText,
-                                    index === 0 ? styles.comfortButtonTextSecondary : styles.comfortButtonTextPrimary,
-                                ]}
-                            >
-                                {preset.label.toUpperCase()}
-                            </Text>
-                        </TouchableOpacity>
-                    ))}
-                </View>
-            </View>
-
-            <View style={styles.sectionHeader}>
-                <Text style={styles.sectionTag}>Stato in tempo reale</Text>
-                <Text style={styles.sectionTitle}>Comfort, consumi e sincronizzazione</Text>
-            </View>
-
-            <View style={[styles.card, styles.cardStrong]}>
-                <View style={styles.listRow}>
-                    <View style={styles.listIcon}>
-                        <Feather name="globe" size={16} color={colors.primary} />
-                    </View>
-                    <View style={styles.listBody}>
-                        <Text style={styles.listTitle}>Risparmio energetico</Text>
-                        <Text style={styles.listText}>
-                            Il sistema riduce i consumi quando il comfort è già ottimale, senza interventi manuali.
-                        </Text>
-                    </View>
-                    <Text style={styles.listRight}>-2.4 kWh</Text>
-                </View>
-                <View style={styles.listRow}>
-                    <View style={styles.listIcon}>
-                        <Feather name="layers" size={16} color={colors.primary} />
-                    </View>
-                    <View style={styles.listBody}>
-                        <Text style={styles.listTitle}>Sistema sincronizzato</Text>
-                        <Text style={styles.listText}>
-                            App, sensori e layer lavorano insieme per mantenere il comfort della persona.
-                        </Text>
-                    </View>
-                    <Text style={styles.listRight}>OK</Text>
-                </View>
-                <View style={styles.listRow}>
-                    <View style={styles.listIcon}>
-                        <Feather name="award" size={16} color={colors.primary} />
-                    </View>
-                    <View style={styles.listBody}>
-                        <Text style={styles.listTitle}>Esperienza premium</Text>
-                        <Text style={styles.listText}>
-                            Trasparenze, bordi luminosi e micro-animazioni per una percezione più esclusiva.
-                        </Text>
-                    </View>
-                    <Text style={styles.listRight}>GLASS</Text>
-                </View>
-            </View>
+            <View style={{height: 20}} />
         </ScrollView>
     );
 
@@ -1377,27 +1352,6 @@ export function App() {
                     </View>
                 </View>
             ))}
-
-            <View style={styles.sectionHeader}>
-                <Text style={styles.sectionTag}>Value delivery</Text>
-                <Text style={styles.sectionTitle}>5 pilastri dell’esperienza utente</Text>
-            </View>
-
-            <View style={[styles.card, styles.cardStrong]}>
-                {VALUE_PILLARS.map((pillar, index) => (
-                    <View key={pillar} style={[styles.listRow, index === VALUE_PILLARS.length - 1 && { borderBottomWidth: 0, paddingBottom: 0 }]}>
-                        <View style={styles.listIcon}>
-                            <Text style={{ color: colors.primary, fontWeight: '900' }}>{index + 1}</Text>
-                        </View>
-                        <View style={styles.listBody}>
-                            <Text style={styles.listTitle}>{pillar}</Text>
-                            <Text style={styles.listText}>
-                                Trasforma comfort, efficienza e sostenibilità in un&apos;unica esperienza premium.
-                            </Text>
-                        </View>
-                    </View>
-                ))}
-            </View>
 
             <View style={styles.sectionHeader}>
                 <Text style={styles.sectionTag}>Supporto</Text>

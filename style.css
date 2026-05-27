@@ -208,7 +208,7 @@ body.dark-theme::after {
 }
 
 #loader-bar {
-    width: 0%;
+    width: 0;
     height: 100%;
     background: var(--text-gradient);
     border-radius: 50px;
@@ -229,7 +229,7 @@ body.dark-theme::after {
     left: 0;
     height: 4px;
     background: var(--text-gradient);
-    width: 0%;
+    width: 0;
     z-index: 1000;
     transition: width 0.1s ease-out;
 }
@@ -330,6 +330,23 @@ body.dark-theme::after {
     transition: var(--transition-smooth);
 }
 
+/* Ensure header action buttons share identical sizing (anchors and buttons) */
+.navbar .nav-actions .btn {
+    display: inline-flex; /* enforce same box model */
+    align-items: center;
+    justify-content: center;
+    padding: 8px 14px; /* consistent compact padding for header */
+    height: 40px; /* fixed height to align buttons */
+    line-height: 1; /* avoid line-height differences between a and button */
+    font-size: 0.95rem;
+}
+.navbar .nav-actions .btn + .btn {
+    margin-left: 6px; /* tightened spacing between header buttons on desktop */
+}
+
+/* helper to hide some header items on mobile and show them inside menu */
+.hide-on-mobile { display: inline-flex; }
+
 #header.scrolled {
     background-color: var(--header-bg);
     backdrop-filter: var(--glass-blur);
@@ -370,9 +387,9 @@ body.dark-theme::after {
 }
 
 .brand-product {
-    font-size: 0.95rem;
-    font-weight: 600;
-    margin-left: 8px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-left: 5px;
     color: var(--text-primary);
 }
 
@@ -407,6 +424,9 @@ body.dark-theme::after {
     display: flex;
     gap: 32px;
 }
+
+/* mobile-only CTA element (hidden on desktop by default) */
+.mobile-cta { display: none; }
 
 .nav-link {
     font-weight: 500;
@@ -561,6 +581,21 @@ body.dark-theme::after {
 
 .product-interactive-container:hover #product-img {
     filter: brightness(1.05);
+}
+
+/* small device price badge on product card */
+.product-price {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    background: rgba(6,7,10,0.8);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 10px;
+    font-weight: 700;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+    z-index: 12;
+    font-size: 0.95rem;
 }
 
 /* SVG Circuit Overlay */
@@ -1547,6 +1582,14 @@ footer {
     border-bottom: 1px solid var(--card-border);
 }
 
+.device-price {
+    text-align: center;
+    margin: 8px 0 18px 0;
+    font-weight: 700;
+    color: var(--text-secondary);
+}
+.device-price strong { color: var(--primary-color); margin-left: 6px; }
+
 .plans-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); /* Modificato da 280px a 240px */
@@ -2432,6 +2475,118 @@ footer {
     }
 }
 
+/* ========== MODAL / PRE-ORDER / EMBED STYLES ========== */
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(6,7,10,0.55);
+    z-index: 2000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 240ms ease;
+}
+.modal-backdrop.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(0.98);
+    z-index: 2100;
+    width: 92%;
+    max-width: 720px;
+    transition: var(--transition-smooth);
+    pointer-events: auto;
+}
+.modal.modal-large {
+    max-width: 1100px;
+}
+.modal[hidden] {
+    display: none;
+}
+
+.modal-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.45), 0 8px 30px var(--primary-glow);
+    backdrop-filter: var(--glass-blur);
+    overflow: hidden;
+}
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--card-border);
+}
+.modal-header h3 { margin: 0; font-size: 1.25rem; }
+.modal-close {
+    background: transparent;
+    border: none;
+    font-size: 1.6rem;
+    cursor: pointer;
+    padding: 6px 8px;
+    color: var(--text-secondary);
+}
+.modal-body { padding: 20px; overflow: auto; max-height: calc(80vh - 120px); }
+.modal-footer { padding: 12px 20px; border-top: 1px solid var(--card-border); }
+
+.muted { color: var(--text-secondary); font-size: 0.95rem; }
+
+.embed-responsive {
+    position: relative;
+    width: 100%;
+    height: min(80vh, 720px); /* constrained height so modal doesn't cover entire viewport */
+    background: linear-gradient(180deg, rgba(0,0,0,0.03), rgba(0,0,0,0.02));
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--card-border);
+    display: block;
+}
+.embed-responsive iframe {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%; border: 0;
+}
+
+
+/* price breakdown inside preorder modal */
+.price-breakdown { padding: 8px 0 12px 0; }
+.price-breakdown .break-row { display: flex; align-items: center; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed var(--card-border); }
+.price-breakdown .break-row.total-upfront { border-top: 1px solid var(--card-border); margin-top: 8px; padding-top: 10px; }
+.price-breakdown .price { font-weight: 800; color: var(--primary-color); }
+.price-breakdown .muted { color: var(--text-secondary); font-weight: 600; }
+
+.form-row { margin-bottom: 14px; }
+.form-row label { display: block; font-weight: 700; margin-bottom: 6px; font-size: 0.9rem; }
+.form-row input[type="text"], .form-row input[type="email"], .form-row input[type="number"] {
+    width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--card-border); background: var(--input-bg); color: var(--text-primary);
+}
+.plan-options { display: flex; gap: 12px; flex-wrap: wrap; }
+.plan-options label { display: inline-flex; gap: 8px; align-items: center; padding: 8px 12px; border-radius: 10px; border: 1px solid var(--card-border); background: transparent; cursor: pointer; }
+.plan-options input { accent-color: var(--primary-color); }
+.price-row { display: flex; align-items: center; justify-content: space-between; font-weight: 800; font-size: 1.1rem; }
+.price { color: var(--primary-color); }
+.small-row { max-width: 140px; }
+
+body.modal-open { overflow: hidden; }
+
+@media (max-width: 720px) {
+    .modal { max-width: 96%; }
+    .embed-responsive { height: 70vh; }
+}
+
+.preorder-image {
+    width: 110px;
+    height: auto;
+    border-radius: 12px;
+    object-fit: contain;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.35), 0 4px 12px var(--primary-glow);
+}
+
 @media (max-width: 768px) {
     .hero-grid {
         grid-template-columns: 1fr;
@@ -2521,6 +2676,22 @@ footer {
         flex-shrink: 0;
         display: flex;
         align-items: center;
+    }
+
+    /* hide header investor CTA on mobile (we surface it inside the nav menu) */
+    .hide-on-mobile { display: none !important; }
+
+    /* style the mobile CTA inside the menu to look like a button */
+    .nav-menu .mobile-cta {
+        display: inline-flex;
+        padding: 10px 16px;
+        margin-top: 12px;
+        border-radius: 10px;
+        background: var(--text-gradient);
+        color: var(--btn-primary-text);
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
     }
 
     #theme-toggle {
