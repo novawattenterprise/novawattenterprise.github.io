@@ -76,7 +76,7 @@
                     </h1>
                     <p class="hero-desc">SymbioSkin è una seconda pelle intelligente che adatta automaticamente climatizzatori ed elettrodomestici intorno a te, in base a come il tuo corpo si sente davvero.</p>
                     <div class="hero-cta">
-                        <a href="#technology" class="btn btn-primary">Come Funziona</a>
+                        <button type="button" class="btn btn-primary" id="video-btn">Come Funziona</button>
                         <a href="#plans" class="btn btn-outline">Scopri i Piani</a>
                     </div>
                 </div>
@@ -589,6 +589,22 @@
         </div>
     </div>
 
+    <!-- Video Modal (YouTube) -->
+    <div id="video-modal-backdrop" class="modal-backdrop" aria-hidden="true"></div>
+    <div id="video-modal" class="modal modal-large" role="dialog" aria-modal="true" aria-labelledby="video-title" hidden>
+        <div class="modal-card">
+            <header class="modal-header">
+                <h3 id="video-title">Come Funziona SymbioSkin</h3>
+                <button class="modal-close" data-close="video-modal" aria-label="Chiudi">×</button>
+            </header>
+            <div class="modal-body">
+                <div class="embed-responsive">
+                    <iframe id="youtube-iframe" title="SymbioSkin - Come Funziona" src="https://www.youtube.com/embed/A8hkc47prp0?si=7C7Zcgoj4CmRNgD_" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
     // Modal helpers
     (function() {
@@ -613,8 +629,10 @@
         // Buttons
         const tryBtn = document.getElementById('try-app-btn');
         const preBtn = document.getElementById('preorder-btn');
+        const videoBtn = document.getElementById('video-btn');
         if (tryBtn) tryBtn.addEventListener('click', () => openModal('tryapp-modal'));
         if (preBtn) preBtn.addEventListener('click', () => openModal('preorder-modal'));
+        if (videoBtn) videoBtn.addEventListener('click', () => openModal('video-modal'));
 
         // Close buttons and backdrop
         document.querySelectorAll('.modal-close').forEach(btn => {
